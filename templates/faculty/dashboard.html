@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}Faculty Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><p class="eyebrow">FACULTY PORTAL</p><h1>Hello, {{ current_user.name.split()[0] }} 👋</h1><p>Manage students, assignments and communication.</p></div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-4"><div class="stat-card"><div class="stat-icon student"><i class="bi bi-people"></i></div><div><span>Students</span><strong>{{ students|length }}</strong></div></div></div>
+    <div class="col-md-4"><div class="stat-card"><div class="stat-icon assignment"><i class="bi bi-journal-plus"></i></div><div><span>Your Assignments</span><strong>{{ assignments|length }}</strong></div></div></div>
+    <div class="col-md-4"><div class="stat-card"><div class="stat-icon message"><i class="bi bi-chat-dots"></i></div><div><span>Messages</span><strong>{{ messages|length }}</strong></div></div></div>
+</div>
+
+<div class="panel mt-4">
+    <div class="panel-header"><h5>Recent Assignments</h5><a href="{{ url_for('faculty.assignments') }}">Manage</a></div>
+    {% for item in assignments[:5] %}
+    <div class="list-item">
+        <div class="item-icon"><i class="bi bi-file-earmark"></i></div>
+        <div><strong>{{ item.title }}</strong><small>{{ item.subject }} · Due {{ item.due_date.strftime('%d %b %Y') }}</small></div>
+    </div>
+    {% else %}
+    <div class="empty-state">Create your first assignment.</div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Messages{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div><p class="eyebrow">COMMUNICATION</p><h1>Messages</h1><p>Stay connected with your faculty.</p></div>
+</div>
+<div class="panel">
+{% for item in messages %}
+<div class="message-card">
+    <div class="avatar">{{ item.sender.name[0]|upper }}</div>
+    <div>
+        <h6>{{ item.subject }}</h6>
+        <p>{{ item.message }}</p>
+        <small>From {{ item.sender.name }} · {{ item.created_at.strftime('%d %b %Y %I:%M %p') }}</small>
+    </div>
+</div>
+{% else %}
+<div class="empty-state">Your inbox is empty.</div>
+{% endfor %}
+</div>
+{% endblock %}

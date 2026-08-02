@@ -1,0 +1,385 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+    <div>
+        <p class="eyebrow">STUDENT PORTAL</p>
+
+        <h1>
+            Good day, {{ current_user.name.split()[0] }} 👋
+        </h1>
+
+        <p>
+            Here is your academic overview.
+        </p>
+    </div>
+
+    <div class="date-chip">
+        <i class="bi bi-calendar3"></i>
+        Academic Dashboard
+    </div>
+</div>
+
+
+<!-- ========================= -->
+<!-- STAT CARDS -->
+<!-- ========================= -->
+
+<div class="row g-4">
+
+    <!-- Attendance -->
+
+    <div class="col-12 col-md-4">
+
+        <a href="{{ url_for('student.attendance') }}"
+           style="text-decoration:none; color:inherit;">
+
+            <div class="stat-card"
+                 style="cursor:pointer;">
+
+                <div class="stat-icon attendance">
+                    <i class="bi bi-person-check"></i>
+                </div>
+
+                <div>
+
+                    <span>
+                        Attendance
+                    </span>
+
+                    <strong>
+                        {{ attendance_pct }}%
+                    </strong>
+
+                    <small style="
+                        display:block;
+                        margin-top:5px;
+                        color:#2563eb;
+                    ">
+                        View subject-wise →
+                    </small>
+
+                </div>
+
+            </div>
+
+        </a>
+
+    </div>
+
+
+    <!-- Assignments -->
+
+    <div class="col-12 col-md-4">
+
+        <div class="stat-card">
+
+            <div class="stat-icon assignment">
+                <i class="bi bi-journal-text"></i>
+            </div>
+
+            <div>
+
+                <span>
+                    Assignments
+                </span>
+
+                <strong>
+                    {{ assignments|length }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Messages -->
+
+    <div class="col-12 col-md-4">
+
+        <div class="stat-card">
+
+            <div class="stat-icon message">
+                <i class="bi bi-chat-heart"></i>
+            </div>
+
+            <div>
+
+                <span>
+                    Messages
+                </span>
+
+                <strong>
+                    {{ messages|length }}
+                </strong>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- ATTENDANCE QUICK ACCESS -->
+<!-- ========================= -->
+
+<div class="row g-4 mt-1">
+
+    <div class="col-12">
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <div>
+
+                    <h5>
+                        Attendance Management
+                    </h5>
+
+                    <small style="color:#718096;">
+                        Check your attendance for every subject
+                    </small>
+
+                </div>
+
+                <a href="{{ url_for('student.attendance') }}"
+                   class="btn btn-primary">
+
+                    <i class="bi bi-bar-chart-line"></i>
+
+                    View Attendance
+
+                </a>
+
+            </div>
+
+
+            <div style="
+                display:grid;
+                grid-template-columns:
+                repeat(auto-fit,minmax(180px,1fr));
+                gap:15px;
+                padding:10px 0;
+            ">
+
+                <div style="
+                    padding:18px;
+                    background:#f7f9fc;
+                    border-radius:12px;
+                ">
+
+                    <i class="bi bi-check-circle"
+                       style="
+                       color:#16a34a;
+                       font-size:22px;
+                       "></i>
+
+                    <div style="
+                        margin-top:8px;
+                        font-weight:600;
+                    ">
+                        Present Classes
+                    </div>
+
+                    <small style="color:#718096;">
+                        Track classes attended
+                    </small>
+
+                </div>
+
+
+                <div style="
+                    padding:18px;
+                    background:#f7f9fc;
+                    border-radius:12px;
+                ">
+
+                    <i class="bi bi-book"
+                       style="
+                       color:#2563eb;
+                       font-size:22px;
+                       "></i>
+
+                    <div style="
+                        margin-top:8px;
+                        font-weight:600;
+                    ">
+                        Subject-wise
+                    </div>
+
+                    <small style="color:#718096;">
+                        View each subject
+                    </small>
+
+                </div>
+
+
+                <div style="
+                    padding:18px;
+                    background:#f7f9fc;
+                    border-radius:12px;
+                ">
+
+                    <i class="bi bi-graph-up"
+                       style="
+                       color:#7c3aed;
+                       font-size:22px;
+                       "></i>
+
+                    <div style="
+                        margin-top:8px;
+                        font-weight:600;
+                    ">
+                        Attendance %
+                    </div>
+
+                    <small style="color:#718096;">
+                        Monitor your percentage
+                    </small>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- ========================= -->
+<!-- ASSIGNMENTS + MESSAGES -->
+<!-- ========================= -->
+
+<div class="row g-4 mt-1">
+
+    <!-- Assignments -->
+
+    <div class="col-lg-7">
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h5>
+                    Upcoming Assignments
+                </h5>
+
+                <span class="badge-soft">
+                    Academic
+                </span>
+
+            </div>
+
+
+            {% for item in assignments %}
+
+            <div class="list-item">
+
+                <div class="item-icon">
+
+                    <i class="bi bi-file-earmark-text"></i>
+
+                </div>
+
+                <div class="flex-grow-1">
+
+                    <strong>
+                        {{ item.title }}
+                    </strong>
+
+                    <small>
+                        {{ item.subject }}
+                        ·
+                        Due
+                        {{ item.due_date.strftime('%d %b %Y') }}
+                    </small>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                No assignments available.
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+
+    <!-- Messages -->
+
+    <div class="col-lg-5">
+
+        <div class="panel">
+
+            <div class="panel-header">
+
+                <h5>
+                    Faculty Messages
+                </h5>
+
+                <a href="{{ url_for('student.messages') }}">
+                    View all
+                </a>
+
+            </div>
+
+
+            {% for item in messages %}
+
+            <div class="list-item">
+
+                <div class="avatar small">
+
+                    {{ item.sender.name[0]|upper }}
+
+                </div>
+
+                <div>
+
+                    <strong>
+                        {{ item.subject }}
+                    </strong>
+
+                    <small>
+                        {{ item.sender.name }}
+                    </small>
+
+                </div>
+
+            </div>
+
+            {% else %}
+
+            <div class="empty-state">
+
+                No messages yet.
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
