@@ -41,16 +41,17 @@ def create_app():
     from models import User
 
     # Import routes
-    from routes.auth import auth
-    from routes.student import student
-    from routes.faculty import faculty
-    from routes.admin import admin
-
+    from routes.auth import (auth)
+    from routes.student import (student)
+    from routes.faculty import (faculty)
+    from routes.admin import (admin)
+    from routes.api import (api)
     # Register routes
     app.register_blueprint(auth)
     app.register_blueprint(student)
     app.register_blueprint(faculty)
     app.register_blueprint(admin)
+    app.register_blueprint(api)
 
     # Load logged-in user
     @login_manager.user_loader
